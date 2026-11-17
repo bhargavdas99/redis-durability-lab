@@ -1,0 +1,28 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis_lab
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    restart: "no"
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_lab
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: fintech_ledger
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: "no"
+
+volumes:
+  postgres_data:
+  redis_data:
