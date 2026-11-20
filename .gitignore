@@ -21,3 +21,6 @@ data/
 Thumbs.db
 .vscode/
 .idea/
+
+# issues to be fixed
+to_be_fixed.md
