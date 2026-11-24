@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import Column, DateTime, Float, String, Text, func
+from sqlalchemy import JSON, Column, DateTime, Float, String, func
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import declarative_base
 
@@ -19,12 +19,14 @@ class PaymentIntentModel(Base):
     __tablename__ = "payment_intents"
 
     idempotency_key = Column(String(255), primary_key=True, index=True)
+    request_hash = Column(String(64), nullable=False)
     customer_id = Column(String(100), nullable=False)
     amount = Column(Float, nullable=False)
     currency = Column(String(10), nullable=False, default="INR")
     status = Column(
         String(50), nullable=False, default="PENDING"
     )  # PENDING, COMMITTED, FAILED
+    response_payload = Column(JSON, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
         DateTime(timezone=True), onupdate=func.now(), server_default=func.now()
